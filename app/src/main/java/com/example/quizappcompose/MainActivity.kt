@@ -34,9 +34,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             QuizAppComposeTheme {
-
                 QuizApp(modifier = Modifier.fillMaxSize())
-
             }
         }
     }
@@ -49,12 +47,14 @@ fun QuizApp(modifier: Modifier)
     NavHost(navController= navController, startDestination = "start"){
         composable("start") {UserEntryPage(navController=navController)  }
         composable("quiz/{username}") { backStackEntry->
-            val name= backStackEntry.arguments?.getString("name")
+            val names= backStackEntry.arguments?.getString("username") ?: ""
             QuizPage(
-            name = name.toString(), navController = navController,
+            name = names, navController = navController,
             modifier = modifier
         )}
-        composable("result"){ResultScreen(7)}
+        composable("result/{score}"){backStackEntry ->
+            val scores = backStackEntry.arguments?.getString("score")?.toIntOrNull() ?: 0
+            ResultScreen(scores)}
     }
 }
 
