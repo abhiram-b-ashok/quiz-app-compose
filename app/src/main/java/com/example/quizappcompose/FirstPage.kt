@@ -46,7 +46,8 @@ fun UserEntryPage(modifier: Modifier= Modifier, navController: NavHostController
         )
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {},colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan, contentColor = Color.Black)
+        Button(onClick = {navController.navigate("quiz/{username}".replace(oldValue = "{username}", newValue = userName))},
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan, contentColor = Color.Black)
             )
         {
             Text(

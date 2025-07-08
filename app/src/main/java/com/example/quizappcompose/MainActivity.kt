@@ -48,15 +48,15 @@ fun QuizApp(modifier: Modifier)
     var navController = rememberNavController()
     NavHost(navController= navController, startDestination = "start"){
         composable("start") {UserEntryPage(navController=navController)  }
-        composable("quiz") { QuizPage(
-            name = "abhi", navController = navController,
+        composable("quiz/{username}") { backStackEntry->
+            val name= backStackEntry.arguments?.getString("name")
+            QuizPage(
+            name = name.toString(), navController = navController,
             modifier = modifier
         )}
-
+        composable("result"){ResultScreen(7)}
     }
-
 }
-
 
 @Preview(showBackground = true)
 @Composable

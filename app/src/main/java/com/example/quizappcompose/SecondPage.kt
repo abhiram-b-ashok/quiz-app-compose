@@ -28,18 +28,23 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun QuizPage(modifier: Modifier, name: String,  navController: NavHostController){
     var questionNo by remember { mutableIntStateOf(0) }
     val question = questions[questionNo]
     var selectedOption by remember { mutableIntStateOf(-1) }
+    val backStackEntry = rememberNavController().currentBackStackEntry
+    val arguments = requireNotNull(backStackEntry?.arguments)
+    val userName = arguments.getString("username")
+
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(modifier=modifier.background(Color(0xFF001F3F))
             .padding(16.dp)) {
             Spacer(modifier = Modifier.fillMaxHeight(0.25f))
-            Text(text ="Name: $name" , style = MaterialTheme.typography.titleSmall, color = Color(0xFFFF9800))
+            Text(text ="Name: $userName" , style = MaterialTheme.typography.titleSmall, color = Color(0xFFFF9800))
             Spacer(modifier = Modifier.height(16.dp))
             Text( text="Question No. ${questionNo+1}", style = MaterialTheme.typography.titleMedium, color = Color.White)
             Spacer(modifier = Modifier.height(16.dp))
@@ -53,8 +58,8 @@ fun QuizPage(modifier: Modifier, name: String,  navController: NavHostController
 
             question.options.forEachIndexed {  index,option ->
                 val borderColor = when{
-                    index== question.correctAnswerIndex -> Color.Green
-                    index != question.correctAnswerIndex -> Color.Red
+                    index== question.correctAnsIndex -> Color.Green
+                    index != question.correctAnsIndex -> Color.Red
                     else -> Color.Transparent
                 }
                 val optionTag = when (index) {
@@ -91,7 +96,7 @@ fun QuizPage(modifier: Modifier, name: String,  navController: NavHostController
                        text = "Next"
                    )
                }
-               false ->  Button(onClick = {},
+               false ->  Button(onClick = {navController.navigate("result")},
                    colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan,
                        contentColor = Color.Black,
                    ),

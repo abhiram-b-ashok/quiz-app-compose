@@ -1,6 +1,5 @@
 package com.example.quizappcompose
 
-import com.example.quizappcompose.ui.Question
 
 data class Question(val questionText: String,
                     val options: List<String>,
